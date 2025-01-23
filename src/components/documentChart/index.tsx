@@ -2,13 +2,13 @@ import React from 'react';
 import { useSelector } from 'react-redux';
 import { RootState } from '../../redux/store';
 import styles from './index.module.scss';
+import { useMemo } from 'react';
 
 const DonutChart: React.FC = () => {
   const { uniqueWordsCount, totalWords } = useSelector((state: RootState) => state.text);
 
   const repeatedWords = totalWords - uniqueWordsCount;
-  const uniquePercentage = totalWords > 0 ? ((uniqueWordsCount / totalWords) * 100).toFixed(2) : '0';
-  const repeatedPercentage = (100 - parseFloat(uniquePercentage)).toFixed(2);
+  const uniquePercentage = useMemo(() => totalWords > 0 ? ((uniqueWordsCount / totalWords) * 100).toFixed(2) : '0', [totalWords, uniqueWordsCount]);  const repeatedPercentage = (100 - parseFloat(uniquePercentage)).toFixed(2);
 
   return (
     <div className={styles.donut}>
@@ -46,10 +46,10 @@ const DonutChart: React.FC = () => {
         />
       </svg>
       <div  className={styles.donutSegment}>
-        <p style={{ margin: 0, fontSize: '14px', fontWeight: 'bold', color: '#4c6ef5' }}>
+        <p className='firstParagraph' style={{ margin: 0, fontSize: '14px', fontWeight: 'bold', color: '#4c6ef5' }}>
           {repeatedWords}
         </p>
-        <p style={{ margin: 0, fontSize: '14px', fontWeight: 'bold', color: '#ff6b6b' }}>
+        <p className='secondParagraph' style={{ margin: 0, fontSize: '14px', fontWeight: 'bold', color: '#ff6b6b' }}>
           {totalWords}
         </p>
       </div>
@@ -67,4 +67,4 @@ const DonutChart: React.FC = () => {
   );
 };
 
-export default DonutChart;
+export default React.memo(DonutChart);
