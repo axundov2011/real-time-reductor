@@ -20,4 +20,4 @@ const Statistics: React.FC<TextState> = () => {
   );
 };
 
-export default Statistics;
+export default React.memo(Statistics);

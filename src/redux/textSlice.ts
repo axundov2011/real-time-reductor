@@ -14,12 +14,15 @@ const initialState: TextState = {
   totalWords: 0,
 };
 
+const stopWordsSet = new Set(stopWords);
+
+
 const textSlice = createSlice({
   name: 'text',
   initialState,
   reducers: {
     updateText(state, action: PayloadAction<string>) {
-      const { uniqueWordsCount, totalWords } = processText(action.payload, stopWords);
+      const { uniqueWordsCount, totalWords } = processText(action.payload, [...stopWordsSet]);
       state.text = action.payload;
       state.uniqueWordsCount = uniqueWordsCount;
       state.totalWords = totalWords;

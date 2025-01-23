@@ -12,16 +12,15 @@ interface DonutChartProps {
 const DonutChart: React.FC<DonutChartProps> = () => {
   const { uniqueWordsCount, totalWords } = useSelector((state: RootState) => state.text);
 
-  const repeatedWords = totalWords - uniqueWordsCount;
+  const repeatedWords = useMemo(() => totalWords - uniqueWordsCount, [totalWords, uniqueWordsCount]);
   const uniquePercentage = useMemo(() => {
-    if (totalWords > 0) {
-      return ((uniqueWordsCount / totalWords) * 100).toFixed(2);
-    } else {
-      return '0';
-    }
+    return totalWords > 0 ? ((uniqueWordsCount / totalWords) * 100).toFixed(2) : '0';
   }, [totalWords, uniqueWordsCount]);
-
-  const repeatedPercentage = (100 - parseFloat(uniquePercentage)).toFixed(2);
+  
+  const repeatedPercentage = useMemo(() => {
+    return (100 - parseFloat(uniquePercentage)).toFixed(2);
+  }, [uniquePercentage]);
+  
 
   return (
     <div className={styles.donut}>
