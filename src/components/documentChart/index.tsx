@@ -4,7 +4,10 @@ import { RootState } from '../../redux/store';
 import styles from './index.module.scss';
 import { useMemo } from 'react';
 
-interface DonutChartProps {}
+interface DonutChartProps {
+  uniqueWordsCount: number;
+  totalWords: number;
+}
 
 const DonutChart: React.FC<DonutChartProps> = () => {
   const { uniqueWordsCount, totalWords } = useSelector((state: RootState) => state.text);
