@@ -3,6 +3,7 @@ import { useDispatch } from 'react-redux';
 import { updateText } from '../../redux/textSlice';
 import styles from './index.module.scss';
 
+
 const TextEditor: React.FC = () => {
   const dispatch = useDispatch();
 

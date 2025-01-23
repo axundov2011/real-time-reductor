@@ -3,9 +3,13 @@ import { useSelector } from 'react-redux';
 import { RootState } from '../../redux/store';
 import styles from './index.module.scss';
 
-const Statistics: React.FC = () => {
-  const { uniqueWordsCount, totalWords } = useSelector((state: RootState) => state.text);
+interface TextState {
+  uniqueWordsCount: number;
+  totalWords: number;
+}
 
+const Statistics: React.FC<TextState> = () => {
+  const { uniqueWordsCount, totalWords }: TextState = useSelector((state: RootState) => state.text);
   const repeatedWords = totalWords - uniqueWordsCount;
 
   return (
