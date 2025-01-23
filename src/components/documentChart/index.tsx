@@ -4,11 +4,21 @@ import { RootState } from '../../redux/store';
 import styles from './index.module.scss';
 import { useMemo } from 'react';
 
-const DonutChart: React.FC = () => {
+interface DonutChartProps {}
+
+const DonutChart: React.FC<DonutChartProps> = () => {
   const { uniqueWordsCount, totalWords } = useSelector((state: RootState) => state.text);
 
   const repeatedWords = totalWords - uniqueWordsCount;
-  const uniquePercentage = useMemo(() => totalWords > 0 ? ((uniqueWordsCount / totalWords) * 100).toFixed(2) : '0', [totalWords, uniqueWordsCount]);  const repeatedPercentage = (100 - parseFloat(uniquePercentage)).toFixed(2);
+  const uniquePercentage = useMemo(() => {
+    if (totalWords > 0) {
+      return ((uniqueWordsCount / totalWords) * 100).toFixed(2);
+    } else {
+      return '0';
+    }
+  }, [totalWords, uniqueWordsCount]);
+
+  const repeatedPercentage = (100 - parseFloat(uniquePercentage)).toFixed(2);
 
   return (
     <div className={styles.donut}>
@@ -28,10 +38,10 @@ const DonutChart: React.FC = () => {
           cy="21"
           r="15.91549431"
           fill="transparent"
-          stroke="#4c6ef5" 
+          stroke="#4c6ef5"
           strokeWidth="3.8"
-          strokeDasharray={`${repeatedPercentage} ${100 - repeatedPercentage}`}
-          strokeDashoffset="25" 
+          strokeDasharray={`${parseFloat(repeatedPercentage)} ${100 - parseFloat(repeatedPercentage)}`}
+          strokeDashoffset="25"
         />
         <circle
           className="donut-segment"
@@ -39,21 +49,21 @@ const DonutChart: React.FC = () => {
           cy="21"
           r="15.91549431"
           fill="transparent"
-          stroke="#ff6b6b" 
+          stroke="#ff6b6b"
           strokeWidth="3.8"
           strokeDasharray={`${uniquePercentage} ${100 - uniquePercentage}`}
-          strokeDashoffset={`calc(25 - ${repeatedPercentage})`} 
+          strokeDashoffset={`calc(25 - ${parseFloat(repeatedPercentage)})`}
         />
       </svg>
-      <div  className={styles.donutSegment}>
-        <p className='firstParagraph' style={{ margin: 0, fontSize: '14px', fontWeight: 'bold', color: '#4c6ef5' }}>
+      <div className={styles.donutSegment}>
+        <p className="firstParagraph" style={{ margin: 0, fontSize: '14px', fontWeight: 'bold', color: '#4c6ef5' }}>
           {repeatedWords}
         </p>
-        <p className='secondParagraph' style={{ margin: 0, fontSize: '14px', fontWeight: 'bold', color: '#ff6b6b' }}>
+        <p className="secondParagraph" style={{ margin: 0, fontSize: '14px', fontWeight: 'bold', color: '#ff6b6b' }}>
           {totalWords}
         </p>
       </div>
-      <div  style={{ marginTop: '10px', textAlign: 'left' }}>
+      <div style={{ marginTop: '10px', textAlign: 'left' }}>
         <div style={{ display: 'flex', alignItems: 'center', marginBottom: '5px' }}>
           <span style={{ display: 'inline-block', width: '10px', height: '10px', backgroundColor: '#4c6ef5', marginRight: '5px', borderRadius: '50%' }}></span>
           <span style={{ fontSize: '12px' }}>Təkrarlanan sözlər</span>
